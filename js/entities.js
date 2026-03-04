@@ -16,17 +16,17 @@ class Entity {
         let sx = 0, sy = 0, sw = img.width, sh = img.height;
 
         if (this.sprite === 'player') {
-            // A imagem do player é uma grade 4x4 de 1024x1024. Cada célula 256x256.
-            // Pulamos os primeiros 60 pixels de cada célula para evitar o texto "FRONT WALK" etc.
-            sw = 200;
-            sh = 200;
-            sx = 28; // Centralizar um pouco no sprite
-            sy = 50; // Pular o texto do topo
+            // Cada célula é ~256x256 em uma grade 4x4
+            sw = 120;
+            sh = 150;
+            sx = 80;  // Pula o texto "FRONT WALK"
+            sy = 30;  // Pula a borda do topo
         } else if (this.sprite === 'grinch') {
-            // O Grinch é uma imagem única, desenhamos ela inteira mas redimensionada
-            sx = 0; sy = 0;
-            sw = img.width;
-            sh = img.height;
+            // Centralizar no monstro ignorando as bordas vazias
+            sw = img.width * 0.8;
+            sh = img.height * 0.8;
+            sx = img.width * 0.1;
+            sy = img.height * 0.05;
         }
 
         ctx.drawImage(
