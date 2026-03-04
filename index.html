@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midnight Camp | Survival Horror</title>
+    <meta name="description"
+        content="Um jogo de survival horror inspirado em clássicos do PS1. Fuja do Grinch e sobreviva à noite no acampamento.">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Google Fonts para estética retro/horror -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="game-container">
+        <div id="ui-layer">
+            <div id="stamina-bar-container">
+                <div id="stamina-bar"></div>
+            </div>
+            <div id="inventory">
+                <span id="item-label">Itens: </span>
+                <div id="items-list"></div>
+            </div>
+            <div id="dialogue-box" class="hidden">
+                <p id="dialogue-text"></p>
+            </div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div id="overlay">
+            <div id="start-screen">
+                <h1 class="glitch" data-text="MIDNIGHT CAMP">MIDNIGHT CAMP</h1>
+                <p>O acampamento nunca foi tão silencioso...</p>
+                <button id="start-btn">INICIAR EXPLORAÇÃO</button>
+            </div>
+            <div id="game-over" class="hidden">
+                <h2 class="horror-text">VOCÊ SE TORNOU PARTE DA FLORESTA</h2>
+                <button id="retry-btn">TENTAR NOVAMENTE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/assets.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/entities.js"></script>
+    <script src="js/game.js"></script>
+</body>
+
+</html>
