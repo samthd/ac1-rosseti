@@ -30,25 +30,26 @@ class GameMap {
     render(ctx, camera) {
         if (!Assets.images.tileset) return;
 
+        const srcSize = 100; // Ajustado para a grade da imagem gerada (~1024/10)
+
         for (let r = 0; r < this.rows; r++) {
             for (let c = 0; c < this.cols; c++) {
                 const x = c * this.tileSize - camera.x;
                 const y = r * this.tileSize - camera.y;
 
-                // Só renderiza se estiver na tela
                 if (x + this.tileSize < 0 || x > ctx.canvas.width ||
                     y + this.tileSize < 0 || y > ctx.canvas.height) continue;
 
-                // Desenha grama como base
-                ctx.drawImage(Assets.images.tileset, 0, 0, 32, 32, x, y, this.tileSize, this.tileSize);
+                // Grama padrão (primeiro tile)
+                ctx.drawImage(Assets.images.tileset, 0, 0, srcSize, srcSize, x, y, this.tileSize, this.tileSize);
 
                 const tile = this.data[r][c];
-                if (tile === 1) { // Árvore
-                    ctx.drawImage(Assets.images.tileset, 32, 0, 32, 32, x, y, this.tileSize, this.tileSize);
+                if (tile === 1) { // Árvore (segundo tile na grade)
+                    ctx.drawImage(Assets.images.tileset, srcSize * 5, 0, srcSize, srcSize, x, y, this.tileSize, this.tileSize);
                 } else if (tile === 2) { // Tenda
-                    ctx.drawImage(Assets.images.tileset, 64, 0, 32, 32, x, y, this.tileSize, this.tileSize);
+                    ctx.drawImage(Assets.images.tileset, srcSize * 5, srcSize * 2, srcSize * 2, srcSize * 2, x, y, this.tileSize * 2, this.tileSize * 2);
                 } else if (tile === 3) { // Caverna
-                    ctx.drawImage(Assets.images.tileset, 96, 0, 32, 32, x, y, this.tileSize, this.tileSize);
+                    ctx.drawImage(Assets.images.tileset, srcSize * 8, srcSize, srcSize * 2, srcSize * 2, x, y, this.tileSize * 3, this.tileSize * 3);
                 }
             }
         }

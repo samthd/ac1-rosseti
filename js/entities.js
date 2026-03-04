@@ -12,10 +12,26 @@ class Entity {
     render(ctx, camera) {
         if (!Assets.images[this.sprite]) return;
 
-        // Simulação de animação básica (pode ser refinada com sprite sheets reais)
+        const img = Assets.images[this.sprite];
+        let sx = 0, sy = 0, sw = img.width, sh = img.height;
+
+        if (this.sprite === 'player') {
+            // A imagem do player é uma grade 4x4 de 1024x1024. Cada célula 256x256.
+            // Pulamos os primeiros 60 pixels de cada célula para evitar o texto "FRONT WALK" etc.
+            sw = 200;
+            sh = 200;
+            sx = 28; // Centralizar um pouco no sprite
+            sy = 50; // Pular o texto do topo
+        } else if (this.sprite === 'grinch') {
+            // O Grinch é uma imagem única, desenhamos ela inteira mas redimensionada
+            sx = 0; sy = 0;
+            sw = img.width;
+            sh = img.height;
+        }
+
         ctx.drawImage(
-            Assets.images[this.sprite],
-            0, 0, 48, 48, // Ajustar conforme a imagem gerada
+            img,
+            sx, sy, sw, sh,
             this.x - camera.x, this.y - camera.y,
             this.width, this.height
         );
@@ -25,7 +41,9 @@ class Entity {
 class Player extends Entity {
     constructor(x, y) {
         super(x, y, 'player');
-        this.speed = 2;
+        this.width = 64;
+        this.height = 64;
+        this.speed = 2.5;
         this.stamina = 100;
         this.maxStamina = 100;
         this.isRunning = false;
@@ -74,8 +92,8 @@ class Player extends Entity {
 class Grinch extends Entity {
     constructor(x, y) {
         super(x, y, 'grinch');
-        this.width = 48; // O Grinch é maior/longo
-        this.height = 48;
+        this.width = 120; // O Grinch é maior/longo
+        this.height = 120;
         this.speed = 1.5;
         this.state = 'patrol'; // patrol, hunt
         this.target = { x: x, y: y };
