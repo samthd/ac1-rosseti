@@ -71,12 +71,9 @@ function render() {
 }
 
 function drawLighting() {
-    // Escuridão total
     ctx.save();
-    ctx.fillStyle = 'rgba(5, 5, 20, 0.85)'; // Noite azulada/roxa
     ctx.globalCompositeOperation = 'source-over';
 
-    // Criar overlay de escuridão exceto onde está a lanterna
     const offscreen = document.createElement('canvas');
     offscreen.width = canvas.width;
     offscreen.height = canvas.height;
@@ -85,18 +82,29 @@ function drawLighting() {
     octx.fillStyle = 'rgba(5, 5, 20, 0.9)';
     octx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Lógica de Flicker
+    const dist = Math.hypot(player.x - grinch.x, player.y - grinch.y);
+    let flickerRadius = 150;
+    let flickerOpacity = 0.8;
+
+    if (dist < 100) {
+        // Oscilação rápida e errática
+        flickerRadius = 150 + (Math.random() * 40 - 20);
+        flickerOpacity = 0.4 + Math.random() * 0.4;
+    }
+
     // Círculo de luz (lanterna)
     const gradient = octx.createRadialGradient(
-        player.x + 16 - camera.x, player.y + 16 - camera.y, 20,
-        player.x + 16 - camera.x, player.y + 16 - camera.y, 150
+        player.x + 16 - camera.x, player.y + 16 - camera.y, 10,
+        player.x + 16 - camera.x, player.y + 16 - camera.y, flickerRadius
     );
-    gradient.addColorStop(0, 'rgba(255, 255, 220, 0.8)');
+    gradient.addColorStop(0, `rgba(255, 255, 220, ${flickerOpacity})`);
     gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
     octx.globalCompositeOperation = 'destination-out';
     octx.fillStyle = gradient;
     octx.beginPath();
-    octx.arc(player.x + 16 - camera.x, player.y + 16 - camera.y, 150, 0, Math.PI * 2);
+    octx.arc(player.x + 16 - camera.x, player.y + 16 - camera.y, flickerRadius, 0, Math.PI * 2);
     octx.fill();
 
     ctx.drawImage(offscreen, 0, 0);
